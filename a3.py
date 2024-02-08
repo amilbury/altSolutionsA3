@@ -66,16 +66,13 @@ def addDividers(imageFileName, rows, cols, thickness, colour, outputFileName):
     width, height = theImage.size
     # creating a new instance of drawer
     drawer = ImageDraw.Draw(theImage)
-    print()
-    rowSpacing = rows / height
-
-    colSpacing = cols / width
-
+    rowSpacing = height / rows
+    colSpacing = width / cols
     totalRowSpaced = 0
     totalColSpaced = 0
 
-    verticleTop = (0, totalRowSpaced)
-    verticleBottom = (thickness, height)
+    verticleTop = (totalRowSpaced, totalRowSpaced)
+    verticleBottom = (totalRowSpaced, totalRowSpaced)
 
     # defining the region with the endpoints that we defined
     picHeight = [verticleTop, verticleBottom]  # inclusive of both endpoints
@@ -88,13 +85,12 @@ def addDividers(imageFileName, rows, cols, thickness, colour, outputFileName):
     picWidth = [horizontalLeft, horizontalRight]  # inclusive of both endpoints
     # loop through the rows and draw a line
     for row in range(rows+1):
-        print(totalRowSpaced)
-        drawer.rectangle(picHeight, colour, colour)
+        drawer.line(picHeight, colour, thickness)
         totalRowSpaced += rowSpacing
     # loop through the columns and draw a line
-    for col in range(cols+1):
-        drawer.rectangle(picWidth, colour, colour)
-        totalColSpaced += colSpacing
+    # for col in range(cols+1):
+    #     drawer.rectangle(picWidth, colour, colour)
+    #     totalColSpaced += colSpacing
     # show the image
     theImage.show()
 
