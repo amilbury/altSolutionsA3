@@ -59,21 +59,17 @@ def addBorders(imageFileName, thickness, colour, outputFileName):
     theImage.save(outputFileName)
 
 
-def addDeviders(imageFileName, rows, cols, thickness, colour, outputFileName):
+def addDividers(imageFileName, rows, cols, thickness, colour, outputFileName):
     # grabbing the image via the filename sent in
     theImage = Image.open(imageFileName)
     # grabbing the heigh and weight (tuple) from the image.size property
     width, height = theImage.size
     # creating a new instance of drawer
     drawer = ImageDraw.Draw(theImage)
+    print()
+    rowSpacing = rows / height
 
-    rowDevisor = len(rows)
-
-    colsDevisor = len(cols)
-
-    rowSpacing = rowDevisor / height
-
-    colSpacing = colsDevisor / width
+    colSpacing = cols / width
 
     totalRowSpaced = 0
     totalColSpaced = 0
@@ -82,21 +78,21 @@ def addDeviders(imageFileName, rows, cols, thickness, colour, outputFileName):
     verticleBottom = (thickness, height)
 
     # defining the region with the endpoints that we defined
-    picHeight = [upperLeft1, bottomRight1]  # inclusive of both endpoints
+    picHeight = [verticleTop, verticleBottom]  # inclusive of both endpoints
 
-    # draw the line onto the picture thus adding the bSSorder
-    drawer.rectangle(region1, colour, colour)
-    # loop through the rows
     # setting the bounds for the bottom border of the picture
     horizontalLeft = (0, height - thickness)
     horizontalRight = (width, height + thickness)
 
     # defining the region with the endpoints that we defined
     picWidth = [horizontalLeft, horizontalRight]  # inclusive of both endpoints
-    for row in rows:
+    # loop through the rows and draw a line
+    for row in range(rows+1):
+        print(totalRowSpaced)
         drawer.rectangle(picHeight, colour, colour)
         totalRowSpaced += rowSpacing
-    for col in cols:
+    # loop through the columns and draw a line
+    for col in range(cols+1):
         drawer.rectangle(picWidth, colour, colour)
         totalColSpaced += colSpacing
     # show the image
