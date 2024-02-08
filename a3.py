@@ -66,31 +66,48 @@ def addDividers(imageFileName, rows, cols, thickness, colour, outputFileName):
     width, height = theImage.size
     # creating a new instance of drawer
     drawer = ImageDraw.Draw(theImage)
+
+    # finding the distance that will be needed between rows
     rowSpacing = height / rows
+    # find the distance that will be needed between columns
     colSpacing = width / cols
-    totalRowSpaced = 0
-    totalColSpaced = 0
 
-    verticleTop = (totalRowSpaced, totalRowSpaced)
-    verticleBottom = (totalRowSpaced, totalRowSpaced)
+    # variables to keep track of how much spacing is between
+    totalRowSpaced = rowSpacing
+    totalColSpaced = colSpacing
 
-    # defining the region with the endpoints that we defined
-    picHeight = [verticleTop, verticleBottom]  # inclusive of both endpoints
-
-    # setting the bounds for the bottom border of the picture
-    horizontalLeft = (0, height - thickness)
-    horizontalRight = (width, height + thickness)
-
-    # defining the region with the endpoints that we defined
-    picWidth = [horizontalLeft, horizontalRight]  # inclusive of both endpoints
-    # loop through the rows and draw a line
-    for row in range(rows+1):
-        drawer.line(picHeight, colour, thickness)
-        totalRowSpaced += rowSpacing
     # loop through the columns and draw a line
-    # for col in range(cols+1):
-    #     drawer.rectangle(picWidth, colour, colour)
-    #     totalColSpaced += colSpacing
+    for col in range(cols):
+        # declaring the top left and top right of the line we want to draw
+        verticleLeft = (totalColSpaced, 0)
+        verticleRight = (totalColSpaced + thickness, height)
+
+        # defining the region with the endpoints that we defined
+        # inclusive of both endpoints
+        picHeight = [verticleLeft, verticleRight]
+
+        # draw the line
+        drawer.rectangle(picHeight, colour, colour)
+
+        # increment the space in between each column
+        totalColSpaced += colSpacing
+
+        # loop through the columns and draw a line
+    for row in range(rows):
+        # declaring the top left and top right of the line we want to draw
+        horizontalLeft = (0, totalRowSpaced)
+        horizontalRight = (width, totalRowSpaced + thickness)
+
+        # defining the region with the endpoints that we defined
+        # inclusive of both endpoints
+        picWidth = [horizontalLeft, horizontalRight]
+
+        # draw the line
+        drawer.rectangle(picWidth, colour, colour)
+
+        # increment the space in between each column
+        totalRowSpaced += rowSpacing
+
     # show the image
     theImage.show()
 
